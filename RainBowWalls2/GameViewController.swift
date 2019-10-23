@@ -13,6 +13,7 @@ import GameplayKit
 class GameViewController: UIViewController
 {
     var sceneInstance = GameScene()
+    var highScoreList = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0] ,[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
     
     @IBOutlet weak var spacelabel: UILabel!
     override func viewDidLoad()
@@ -20,16 +21,23 @@ class GameViewController: UIViewController
         super.viewDidLoad()
         let scene = GameScene(size: view.bounds.size)
         let skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+//        skView.showsFPS = true
+//        skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         sceneInstance = scene
         
+        if let highScores = UserDefaults.standard.object(forKey: "myHighscores") as? [[Int]]
+        {
+            highScoreList = highScores
+        }
+        
         difficultyLabel.text = difficultyText
         hightScoreLabel.text = highScoreText
         spacelabel.isHidden = true
+        
+
     }
 
     //@IBOutlet weak var clearButton: UIButton!
@@ -53,12 +61,24 @@ class GameViewController: UIViewController
     }
     
     //an array for each difficulty
-    var highScoreList = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],
-                         [0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+
+//    var highScoreList: [[Int]] {
+//        if let highScores = UserDefaults.standard.object(forKey: "myHighscores") as? [[Int]]
+//        {
+//            return highScores
+//        }
+//        else
+//        {
+//            return [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],
+//            [0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+//        }
+//    }
+    
     var difficultyText : String
     {
         return " \(difficultyNames[Int(sceneInstance.difficulty)]) "
     }
+    
     var highScoreText : String
     {
         var text = "High Scores: \n"
